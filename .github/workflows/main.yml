@@ -1,141 +1,70 @@
-# Save this file as .github/workflows/main.yml at the repository root.
-# Commit the extracted Xcode project and source files, not only their ZIP.
-name: Build Local Network Radar IPA
+name: Build iOS app
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
   contents: read
 
-concurrency:
-  group: radar-ipa-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-defaults:
-  run:
-    shell: bash
-
 jobs:
   build:
-    name: Build unsigned iPhone IPA
-    runs-on: macos-15
+    runs-on: macos-latest
     timeout-minutes: 30
-
-    env:
-      RADAR_SCHEME: LocalNetworkRadar
-
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
+      - uses: actions/checkout@v4
 
-      - name: Prepare logs and show Xcode
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Run unit tests in an available iPhone simulator
+        shell: bash
         run: |
           set -euo pipefail
-          mkdir -p "$GITHUB_WORKSPACE/artifacts/logs"
-          xcodebuild -version | tee "$GITHUB_WORKSPACE/artifacts/logs/xcode-version.log"
-
-      - name: Find and validate Xcode project
-        id: project
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          import os
-          import sys
-          from pathlib import Path
-
-          root = Path(os.environ["GITHUB_WORKSPACE"])
-          excluded = {".git", "Pods", "Carthage", ".build", "DerivedData", "artifacts"}
-          projects = sorted(
-              path for path in root.rglob("LocalNetworkRadar.xcodeproj")
-              if path.is_dir() and not excluded.intersection(path.relative_to(root).parts)
-          )
-          if not projects:
-              print("::error::LocalNetworkRadar.xcodeproj was not found. Commit the extracted project and Swift sources; a ZIP file alone cannot be built.")
-              sys.exit(1)
-          if len(projects) != 1:
-              print("::error::Multiple LocalNetworkRadar.xcodeproj directories were found. Keep one buildable copy in the repository.")
-              for path in projects:
-                  print(path.relative_to(root))
-              sys.exit(1)
-
-          project = projects[0]
-          if any(char in str(project) for char in ("\n", "\r")):
-              print("::error::Project paths containing newlines are not supported.")
-              sys.exit(1)
-          if not (project / "project.pbxproj").is_file():
-              print("::error::The Xcode project is incomplete: project.pbxproj is missing.")
-              sys.exit(1)
-          scheme = project / "xcshareddata" / "xcschemes" / (os.environ["RADAR_SCHEME"] + ".xcscheme")
-          if not scheme.is_file():
-              print("::error::The shared LocalNetworkRadar scheme is missing. Include the .xcodeproj/xcshareddata/xcschemes directory from the source archive.")
-              sys.exit(1)
-
-          print("Project:", project.relative_to(root))
-          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
-              output.write("path=" + str(project) + "\n")
-          PY
-
-      # Archive for a physical iPhone. No simulator or Apple ID is required.
-      - name: Build unsigned device archive
-        env:
-          RADAR_PROJECT: ${{ steps.project.outputs.path }}
-        run: |
-          set -euo pipefail
-          RADAR_ARCHIVE_ARGS=(
-            -project "$RADAR_PROJECT"
-            -scheme "$RADAR_SCHEME"
-            -configuration Release
-            -destination 'generic/platform=iOS'
-            -derivedDataPath "$RUNNER_TEMP/LocalNetworkRadarDerivedData"
-            -archivePath "$RUNNER_TEMP/LocalNetworkRadar.xcarchive"
-            SKIP_INSTALL=NO
-          )
-          # Keep signing overrides on the command line itself, without shell continuations.
-          xcodebuild archive CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY= "${RADAR_ARCHIVE_ARGS[@]}" 2>&1 | tee "$GITHUB_WORKSPACE/artifacts/logs/build.log"
-
-      - name: Package and verify unsigned IPA
-        run: |
-          set -euo pipefail
-          RADAR_APP="$RUNNER_TEMP/LocalNetworkRadar.xcarchive/Products/Applications/LocalNetworkRadar.app"
-          if [ ! -d "$RADAR_APP" ] || [ ! -f "$RADAR_APP/Info.plist" ]; then
-            echo '::error::The archive does not contain LocalNetworkRadar.app. Check build.log for the archive failure.'
+          RADAR_DEVICE_ID="$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin); ids=[v["udid"] for k,vs in d["devices"].items() if ".iOS-" in k for v in vs if v.get("isAvailable") and v["name"].startswith("iPhone")]; print(ids[0] if ids else "")')"
+          if [ -z "$RADAR_DEVICE_ID" ]; then
+            echo "No available iPhone simulator on this runner"
             exit 1
           fi
+          xcodebuild test \
+            -project LocalNetworkRadar.xcodeproj \
+            -scheme LocalNetworkRadar \
+            -configuration Debug \
+            -destination "platform=iOS Simulator,id=$RADAR_DEVICE_ID" \
+            -parallel-testing-enabled NO \
+            -resultBundlePath "$RUNNER_TEMP/RadarTests.xcresult" \
+            CODE_SIGNING_ALLOWED=NO
 
-          RADAR_EXECUTABLE="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$RADAR_APP/Info.plist")"
-          if [ ! -f "$RADAR_APP/$RADAR_EXECUTABLE" ]; then
-            echo '::error::The archived app executable is missing.'
-            exit 1
-          fi
-          xcrun lipo -verify_arch arm64 "$RADAR_APP/$RADAR_EXECUTABLE"
+      - name: Archive an unsigned device app
+        run: |
+          set -euo pipefail
+          xcodebuild archive \
+            -project LocalNetworkRadar.xcodeproj \
+            -scheme LocalNetworkRadar \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath "$RUNNER_TEMP/LocalNetworkRadar.xcarchive" \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
 
-          RADAR_PACKAGE="$RUNNER_TEMP/LocalNetworkRadarIPA"
-          mkdir -p "$RADAR_PACKAGE/Payload"
-          ditto "$RADAR_APP" "$RADAR_PACKAGE/Payload/LocalNetworkRadar.app"
-          cd "$RADAR_PACKAGE"
-          zip -qry "$GITHUB_WORKSPACE/artifacts/LocalNetworkRadar-unsigned.ipa" Payload
-          unzip -tq "$GITHUB_WORKSPACE/artifacts/LocalNetworkRadar-unsigned.ipa"
+      - name: Package unsigned IPA
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/RadarIPA/Payload"
+          ditto "$RUNNER_TEMP/LocalNetworkRadar.xcarchive/Products/Applications/LocalNetworkRadar.app" \
+            "$RUNNER_TEMP/RadarIPA/Payload/LocalNetworkRadar.app"
+          cd "$RUNNER_TEMP/RadarIPA"
+          zip -qry "$GITHUB_WORKSPACE/LocalNetworkRadar-unsigned.ipa" Payload
 
       - name: Upload unsigned IPA
         uses: actions/upload-artifact@v4
         with:
           name: LocalNetworkRadar-unsigned-IPA
-          path: artifacts/LocalNetworkRadar-unsigned.ipa
+          path: LocalNetworkRadar-unsigned.ipa
           if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
 
-      - name: Upload build logs
+      - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: LocalNetworkRadar-build-logs
-          path: artifacts/logs/
+          name: RadarTests-results
+          path: ${{ runner.temp }}/RadarTests.xcresult
           if-no-files-found: ignore
-          retention-days: 7
