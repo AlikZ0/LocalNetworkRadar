@@ -1,0 +1,294 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+		D0031314424D3C7C3D648C2C = {
+			isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BonjourDiscovery.swift"; sourceTree = "<group>";
+		};
+		E1BF5AF53CD6AC97091780A0 = {
+			isa = PBXBuildFile; fileRef = D0031314424D3C7C3D648C2C;
+		};
+		FFE64F22C8012EA329C390A3 = {
+			isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView.swift"; sourceTree = "<group>";
+		};
+		9FF2EA8E94F5AE97E000DA72 = {
+			isa = PBXBuildFile; fileRef = FFE64F22C8012EA329C390A3;
+		};
+		FC027DE3D5C5E1C7954BD45B = {
+			isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalNetworkAccess.swift"; sourceTree = "<group>";
+		};
+		EECE3EB341A5EADBE1167EE4 = {
+			isa = PBXBuildFile; fileRef = FC027DE3D5C5E1C7954BD45B;
+		};
+		726B38E0972C8BD0E61F9FE8 = {
+			isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalNetworkRadarApp.swift"; sourceTree = "<group>";
+		};
+		7F0CCC171003CBB1CBD42AA8 = {
+			isa = PBXBuildFile; fileRef = 726B38E0972C8BD0E61F9FE8;
+		};
+		E14B2033C65CC88DF23401F6 = {
+			isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkDevice.swift"; sourceTree = "<group>";
+		};
+		C383FAB07E5AA9D8818F4572 = {
+			isa = PBXBuildFile; fileRef = E14B2033C65CC88DF23401F6;
+		};
+		27876E5F0B7A75BFDC2C68F0 = {
+			isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkInterface.swift"; sourceTree = "<group>";
+		};
+		EA559F5BCE466C3EDF927712 = {
+			isa = PBXBuildFile; fileRef = 27876E5F0B7A75BFDC2C68F0;
+		};
+		9CB3B8EA4A446695D704B108 = {
+			isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkScanner.swift"; sourceTree = "<group>";
+		};
+		80399BAC8AA79F33C7CD37A4 = {
+			isa = PBXBuildFile; fileRef = 9CB3B8EA4A446695D704B108;
+		};
+		1613C744602F38C4569754C1 = {
+			isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TCPProbe.swift"; sourceTree = "<group>";
+		};
+		1BD6474294BB4D4E3E7F308D = {
+			isa = PBXBuildFile; fileRef = 1613C744602F38C4569754C1;
+		};
+		8873151C067A966D8A2B0623 = {
+			isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info.plist"; sourceTree = "<group>";
+		};
+		CD774F8C46B4685BA5E70E5A = {
+			isa = PBXFileReference; lastKnownFileType = text.xml; path = "PrivacyInfo.xcprivacy"; sourceTree = "<group>";
+		};
+		05529D7BAF9BE1F1AD75AA78 = {
+			isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets.xcassets"; sourceTree = "<group>";
+		};
+		FD57E9B16885BEBF76EEE08F = {
+			isa = PBXBuildFile; fileRef = CD774F8C46B4685BA5E70E5A;
+		};
+		D0ADC22F3C046CC76298F620 = {
+			isa = PBXBuildFile; fileRef = 05529D7BAF9BE1F1AD75AA78;
+		};
+		736BF95996D40C71307E3727 = {
+			isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadarTests.swift; sourceTree = "<group>";
+		};
+		D0B09555778EDB550CF6B7A4 = {
+			isa = PBXBuildFile; fileRef = 736BF95996D40C71307E3727;
+		};
+		763D774377779C412BB71F6F = {
+			isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocalNetworkRadar.app; sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		00444E2C37DD529B70E931A2 = {
+			isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LocalNetworkRadarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		93D138658BC0B455C1CFEBEA = {
+			isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libdns_sd.tbd; path = usr/lib/libdns_sd.tbd; sourceTree = SDKROOT;
+		};
+		9DD00084DEBAE782591AEF94 = {
+			isa = PBXBuildFile; fileRef = 93D138658BC0B455C1CFEBEA;
+		};
+		5652941471EEF5B25819CDC3 = {
+			isa = PBXGroup; children = (
+				D0031314424D3C7C3D648C2C,
+				FFE64F22C8012EA329C390A3,
+				FC027DE3D5C5E1C7954BD45B,
+				726B38E0972C8BD0E61F9FE8,
+				E14B2033C65CC88DF23401F6,
+				27876E5F0B7A75BFDC2C68F0,
+				9CB3B8EA4A446695D704B108,
+				1613C744602F38C4569754C1,
+				8873151C067A966D8A2B0623,
+				CD774F8C46B4685BA5E70E5A,
+				05529D7BAF9BE1F1AD75AA78,
+			); path = LocalNetworkRadar; sourceTree = "<group>";
+		};
+		48BA5869060C40ADB5964A48 = {
+			isa = PBXGroup; children = (736BF95996D40C71307E3727); path = LocalNetworkRadarTests; sourceTree = "<group>";
+		};
+		0A3E27B8CA818264D75C8D81 = {
+			isa = PBXGroup; children = (763D774377779C412BB71F6F, 00444E2C37DD529B70E931A2); name = Products; sourceTree = "<group>";
+		};
+		E2AA269EB967A8853A258BFA = {
+			isa = PBXGroup; children = (93D138658BC0B455C1CFEBEA); name = Frameworks; sourceTree = "<group>";
+		};
+		E991C021ABBD2DA6DF032C23 = {
+			isa = PBXGroup; children = (5652941471EEF5B25819CDC3, 48BA5869060C40ADB5964A48, E2AA269EB967A8853A258BFA, 0A3E27B8CA818264D75C8D81); sourceTree = "<group>";
+		};
+		D8AFF257B45D0C513672EC45 = {
+			isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (
+				E1BF5AF53CD6AC97091780A0,
+				9FF2EA8E94F5AE97E000DA72,
+				EECE3EB341A5EADBE1167EE4,
+				7F0CCC171003CBB1CBD42AA8,
+				C383FAB07E5AA9D8818F4572,
+				EA559F5BCE466C3EDF927712,
+				80399BAC8AA79F33C7CD37A4,
+				1BD6474294BB4D4E3E7F308D,
+			); runOnlyForDeploymentPostprocessing = 0;
+		};
+		91024282FFD499F5807DB5BC = {
+			isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (
+				9DD00084DEBAE782591AEF94,
+			); runOnlyForDeploymentPostprocessing = 0;
+		};
+		DC549ACCB7C726C62ECFD4E2 = {
+			isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (
+				FD57E9B16885BEBF76EEE08F,
+				D0ADC22F3C046CC76298F620,
+			); runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2298129A58493C45A5D7D9A = {
+			isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (
+				D0B09555778EDB550CF6B7A4,
+			); runOnlyForDeploymentPostprocessing = 0;
+		};
+		28557525D9B40FEE6754FB60 = {
+			isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (
+			); runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F6BC17F79ADBDD97FB52430 = {
+			isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (
+			); runOnlyForDeploymentPostprocessing = 0;
+		};
+		F168FCEC9242136A272F6D22 = {
+			isa = PBXContainerItemProxy; containerPortal = 244210E48437B6556980A702; proxyType = 1; remoteGlobalIDString = AC44A5EE06496B21A17CA082; remoteInfo = LocalNetworkRadar;
+		};
+		B9E7EDFEA5781C84549BB689 = {
+			isa = PBXTargetDependency; target = AC44A5EE06496B21A17CA082; targetProxy = F168FCEC9242136A272F6D22;
+		};
+		AC44A5EE06496B21A17CA082 = {
+			isa = PBXNativeTarget; buildConfigurationList = 952F4DF8105729797025EDD4; buildPhases = (D8AFF257B45D0C513672EC45, 91024282FFD499F5807DB5BC, DC549ACCB7C726C62ECFD4E2); buildRules = (); dependencies = (); name = LocalNetworkRadar; productName = LocalNetworkRadar; productReference = 763D774377779C412BB71F6F; productType = "com.apple.product-type.application";
+		};
+		3A0C9CEF9D8F3BC090274361 = {
+			isa = PBXNativeTarget; buildConfigurationList = A314C661E13AE4B085126114; buildPhases = (B2298129A58493C45A5D7D9A, 28557525D9B40FEE6754FB60, 3F6BC17F79ADBDD97FB52430); buildRules = (); dependencies = (B9E7EDFEA5781C84549BB689); name = LocalNetworkRadarTests; productName = LocalNetworkRadarTests; productReference = 00444E2C37DD529B70E931A2; productType = "com.apple.product-type.bundle.unit-test";
+		};
+		73EBF6644258C120893E685D = {
+			isa = XCBuildConfiguration; buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = "NO";
+				CLANG_ENABLE_MODULES = "YES";
+				CLANG_ENABLE_OBJC_ARC = "YES";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = "YES";
+				CLANG_WARN_UNREACHABLE_CODE = "YES";
+				COPY_PHASE_STRIP = "NO";
+				ENABLE_USER_SCRIPT_SANDBOXING = "YES";
+				GCC_C_LANGUAGE_STANDARD = "gnu17";
+				IPHONEOS_DEPLOYMENT_TARGET = "17.0";
+				SDKROOT = "iphoneos";
+				SWIFT_VERSION = "5.0";
+				SWIFT_STRICT_CONCURRENCY = "complete";
+				SWIFT_DEFAULT_ACTOR_ISOLATION = "nonisolated";
+				DEBUG_INFORMATION_FORMAT = "dwarf";
+				ENABLE_TESTABILITY = "YES";
+				GCC_OPTIMIZATION_LEVEL = "0";
+				ONLY_ACTIVE_ARCH = "YES";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = ("DEBUG", "$(inherited)");
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			}; name = Debug;
+		};
+		0B0C687DF8B6B8DC790B519C = {
+			isa = XCBuildConfiguration; buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = "NO";
+				CLANG_ENABLE_MODULES = "YES";
+				CLANG_ENABLE_OBJC_ARC = "YES";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = "YES";
+				CLANG_WARN_UNREACHABLE_CODE = "YES";
+				COPY_PHASE_STRIP = "NO";
+				ENABLE_USER_SCRIPT_SANDBOXING = "YES";
+				GCC_C_LANGUAGE_STANDARD = "gnu17";
+				IPHONEOS_DEPLOYMENT_TARGET = "17.0";
+				SDKROOT = "iphoneos";
+				SWIFT_VERSION = "5.0";
+				SWIFT_STRICT_CONCURRENCY = "complete";
+				SWIFT_DEFAULT_ACTOR_ISOLATION = "nonisolated";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				SWIFT_COMPILATION_MODE = "wholemodule";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = "YES";
+			}; name = Release;
+		};
+		AAB2723FF2C8E6D1C298C1E4 = {
+			isa = XCConfigurationList; buildConfigurations = (73EBF6644258C120893E685D, 0B0C687DF8B6B8DC790B519C); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release;
+		};
+		B00CCDD09424E369308D67FA = {
+			isa = XCBuildConfiguration; buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "AccentColor";
+				CODE_SIGN_STYLE = "Automatic";
+				CURRENT_PROJECT_VERSION = "1";
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = "NO";
+				INFOPLIST_FILE = "LocalNetworkRadar/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
+				MARKETING_VERSION = "1.0.0";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alik.localnetworkradar";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = "NO";
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = "NO";
+				SWIFT_EMIT_LOC_STRINGS = "YES";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			}; name = Debug;
+		};
+		1B104479E55E37CF8A63CBDF = {
+			isa = XCBuildConfiguration; buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "AccentColor";
+				CODE_SIGN_STYLE = "Automatic";
+				CURRENT_PROJECT_VERSION = "1";
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = "NO";
+				INFOPLIST_FILE = "LocalNetworkRadar/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
+				MARKETING_VERSION = "1.0.0";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alik.localnetworkradar";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = "NO";
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = "NO";
+				SWIFT_EMIT_LOC_STRINGS = "YES";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			}; name = Release;
+		};
+		952F4DF8105729797025EDD4 = {
+			isa = XCConfigurationList; buildConfigurations = (B00CCDD09424E369308D67FA, 1B104479E55E37CF8A63CBDF); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release;
+		};
+		DD3F495F7D6A5AA1C1769021 = {
+			isa = XCBuildConfiguration; buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = "Automatic";
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = "YES";
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@loader_path/Frameworks");
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alik.localnetworkradar.tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LocalNetworkRadar.app/LocalNetworkRadar";
+			}; name = Debug;
+		};
+		E670BC2FFE794172EBC92AE3 = {
+			isa = XCBuildConfiguration; buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = "Automatic";
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = "YES";
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@loader_path/Frameworks");
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alik.localnetworkradar.tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LocalNetworkRadar.app/LocalNetworkRadar";
+			}; name = Release;
+		};
+		A314C661E13AE4B085126114 = {
+			isa = XCConfigurationList; buildConfigurations = (DD3F495F7D6A5AA1C1769021, E670BC2FFE794172EBC92AE3); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release;
+		};
+		244210E48437B6556980A702 = {
+			isa = PBXProject;
+			attributes = { BuildIndependentTargetsInParallel = YES; LastSwiftUpdateCheck = 1600; LastUpgradeCheck = 1600; TargetAttributes = { AC44A5EE06496B21A17CA082 = { CreatedOnToolsVersion = 16.0; }; 3A0C9CEF9D8F3BC090274361 = { CreatedOnToolsVersion = 16.0; TestTargetID = AC44A5EE06496B21A17CA082; }; }; };
+			buildConfigurationList = AAB2723FF2C8E6D1C298C1E4; compatibilityVersion = "Xcode 14.0";
+			developmentRegion = ru; hasScannedForEncodings = 0; knownRegions = (ru, en, Base);
+			mainGroup = E991C021ABBD2DA6DF032C23; productRefGroup = 0A3E27B8CA818264D75C8D81; projectDirPath = ""; projectRoot = "";
+			targets = (AC44A5EE06496B21A17CA082, 3A0C9CEF9D8F3BC090274361);
+		};
+	};
+	rootObject = 244210E48437B6556980A702;
+}
