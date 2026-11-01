@@ -35,7 +35,6 @@ struct ContentView: View {
                     Label("Устройства рядом", systemImage: "dot.radiowaves.left.and.right")
                         .font(.headline)
                     Text(scanner.status).font(.subheadline).foregroundStyle(.secondary)
-                        .accessibilityLiveRegion(.polite)
                     if !scanner.networkDescription.isEmpty {
                         Text(scanner.networkDescription)
                             .font(.caption.monospaced()).foregroundStyle(.secondary)
