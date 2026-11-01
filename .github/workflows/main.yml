@@ -87,10 +87,55 @@ jobs:
           RADAR_PROJECT: ${{ steps.project.outputs.path }}
         run: |
           set -euo pipefail
-          xcodebuild archive \
-            -project "$RADAR_PROJECT" \
-            -scheme "$RADAR_SCHEME" \
-            -configuration Release \
-            -destination 'generic/platform=iOS' \
-            -derivedDataPath "$RUNNER_TEMP/LocalNetworkRadarDerivedData" \
-            -archivePath "$RUNNER_TEMP/LocalNetworkRadar.xcarchive" \
+          RADAR_ARCHIVE_ARGS=(
+            -project "$RADAR_PROJECT"
+            -scheme "$RADAR_SCHEME"
+            -configuration Release
+            -destination 'generic/platform=iOS'
+            -derivedDataPath "$RUNNER_TEMP/LocalNetworkRadarDerivedData"
+            -archivePath "$RUNNER_TEMP/LocalNetworkRadar.xcarchive"
+            SKIP_INSTALL=NO
+          )
+          # Keep signing overrides on the command line itself, without shell continuations.
+          xcodebuild archive CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY= "${RADAR_ARCHIVE_ARGS[@]}" 2>&1 | tee "$GITHUB_WORKSPACE/artifacts/logs/build.log"
+
+      - name: Package and verify unsigned IPA
+        run: |
+          set -euo pipefail
+          RADAR_APP="$RUNNER_TEMP/LocalNetworkRadar.xcarchive/Products/Applications/LocalNetworkRadar.app"
+          if [ ! -d "$RADAR_APP" ] || [ ! -f "$RADAR_APP/Info.plist" ]; then
+            echo '::error::The archive does not contain LocalNetworkRadar.app. Check build.log for the archive failure.'
+            exit 1
+          fi
+
+          RADAR_EXECUTABLE="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$RADAR_APP/Info.plist")"
+          if [ ! -f "$RADAR_APP/$RADAR_EXECUTABLE" ]; then
+            echo '::error::The archived app executable is missing.'
+            exit 1
+          fi
+          xcrun lipo -verify_arch arm64 "$RADAR_APP/$RADAR_EXECUTABLE"
+
+          RADAR_PACKAGE="$RUNNER_TEMP/LocalNetworkRadarIPA"
+          mkdir -p "$RADAR_PACKAGE/Payload"
+          ditto "$RADAR_APP" "$RADAR_PACKAGE/Payload/LocalNetworkRadar.app"
+          cd "$RADAR_PACKAGE"
+          zip -qry "$GITHUB_WORKSPACE/artifacts/LocalNetworkRadar-unsigned.ipa" Payload
+          unzip -tq "$GITHUB_WORKSPACE/artifacts/LocalNetworkRadar-unsigned.ipa"
+
+      - name: Upload unsigned IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: LocalNetworkRadar-unsigned-IPA
+          path: artifacts/LocalNetworkRadar-unsigned.ipa
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+
+      - name: Upload build logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: LocalNetworkRadar-build-logs
+          path: artifacts/logs/
+          if-no-files-found: ignore
+          retention-days: 7
